@@ -2,7 +2,7 @@
 
 ## 1. W korpusie występują słowa z następującymi krotnościami ( w nawiasach ): low (5), lowest (2), newer (6), wider (3), new (2). Wykonaj pierwsze kilka iteracji algorytmu BPE
 
-BPE polega na redukcje rozmiaru słownictwa w korpusie poprzez enkodowanie najczęściej występujących 
+BPE polega na redukcje rozmiaru słownictwa w korpusie poprzez enkodowanie najczęściej występujących
 znaków przez najczęstsze występujący grup znaków/bajtów w słowach.
 
 Iteracje algorytmu BPE polegają na zliczaniu wystąpień par znaków w korpusie i łączeniu ich w grupy,
@@ -263,7 +263,6 @@ Jeśli \( c > 1 \) i \( x_i > x_j \) dla każdego \( j \neq i \), to \( e^{cx_i}
 
 Podobnie jak powyżej, ale gdy \( c < 1 \), wartości w liczniku i mianowniku dążą do siebie nawzajem, co prowadzi do bardziej jednorodnego rozkładu prawdopodobieństwa.
 
-
 ## 11. Przypomnij sobie jak działa algorytm SGD ( stochastycznego spadku wzdłuż gradientu ). W jaki sposób ten algorytm uzyskuje przyśpieszenie nad algorytmem GD (spadku wzdłuż gradientu )? Czym różnią się kierunki/wektory, w których stronę aktualizowane są wagi modeli uczonych SGD od modeli uczonych GD?
 
 Algorytm SGD (stochastic gradient descent) działa poprzez wybieranie losowego podzbioru danych treningowych w każdej iteracji i aktualizowanie wag modelu na podstawie gradientu funkcji kosztu dla tego podzbioru. To sprawia, że ​​jest znacznie szybszy niż algorytm GD (gradient descent), który oblicza gradient dla całego zbioru danych treningowych w każdej iteracji. Przyśpieszenie algorytmu SGD wynika z kilku czynników:
@@ -306,7 +305,7 @@ wektory: [
 
 ## 13. Zakładając, że słowa wejściowe są kodowane "1 z n" rozpisz wzór na klasyfikator softmax dla podanych prawdopodobieństw w modelach n-gramowych. Aby operować na prostszych wzorach możesz skorzystać z notacji "proporcjonalne", w której softmax możemy zapisać jako $P(\hat{y}=y_i|x)\propto w^{T}_i\times +\,b_i$ (prawdopodobieństwo klasy jest proporcjonalne [choć nie wprost] z wynikiem wyrażenia liniowego). Po zapisaniu wzorów postraj się uprościć je tak bardzo jak potrafisz i zinterpretuj je
 
-Załóżmy, że mamy słownik \(V\) o rozmiarze \(|V|\). Wektory \(w^{T}_i\) i skalary \(b_i\) to parametry modelu dla każdego słowa \(i\) w słowniku \(V\). 
+Załóżmy, że mamy słownik \(V\) o rozmiarze \(|V|\). Wektory \(w^{T}_i\) i skalary \(b_i\) to parametry modelu dla każdego słowa \(i\) w słowniku \(V\).
 
 - Dla modelu bi-gramowego $P(Ala|[start])\propto$
 
