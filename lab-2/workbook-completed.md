@@ -163,13 +163,9 @@ itd...
 
 ## 6. Załóżmy, że w korpusie mamy zdania: "Pojechałem do szkoły metrem", "Pojechałem do szkoły tramwajem", "Pojechałem do teatru metrem", "Pojechałem do teatru samochodem", "Śmignąłem do szkoły metrem", a klasy słów zostały zdefiniowane tak jak wyżej. Używajać bi-gramowego klasowego modelu języka oblicz prawdopodobieństwo sekwencji "Śmignąłem do szkoły samochodem"
 
-- $P(Śmignąłem|[start]) = \dots$
-- $P(do|Śmignąłem) = \dots$
-- $P(szkoły|do) = \dots$
-- $P(samochodem|szkoły) = \dots$
-- $P([stop]|samochodem) = \dots$
+- Schemat: C1 C2 C3 C4
 
-$$ P(Śmignąłem\,do\,szkoły\,samochodem) = P(Śmignąłem|[start]) \times P(do|Śmignąłem) \times P(szkoły|do) \times P(samochodem|szkoły) \times P([stop]|samochodem) = \dots $$
+$$ P(Śmignąłem\,do\,szkoły\,samochodem) = P(Śmignąłem|C1) \times P(do|C2) \times P(szkoły|C3) \times P(samochodem|C4) \newline = P(C1|[start])P(C2|C1)P(C3|C2)P(C4|C3)P([stop]|C4) \newline = \frac{1}{5}\frac{1}{1}\frac{2}{5}\frac{1}{5}\frac{1}{1}=\frac{2}{125}$$
 
 ## 7. Zakładając korpus
 
