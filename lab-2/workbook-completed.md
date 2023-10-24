@@ -120,7 +120,7 @@ Zakładając model trzy-gramowy, w którym każdy warunkowy rozkład prawdopodob
 
 Podstawienie wartości:
 
-$$ PP_{test} = \sqrt[N]{\frac{1}{\prod\limits_{s\in D_{test}} P(s)}} = \sqrt[N]{\frac{1}{\prod\limits_{s\in D_{test}} \frac{1}{N^3}}} = \sqrt[N]{\frac{1}{\left(\frac{1}{N^3}\right)^N}} = \sqrt[N]{\left(\frac{1}{N^3}\right)^{-N}}= \left(\frac{1}{N^3}\right)^{-1} = N^3 $$
+$$ PP_{test} = \sqrt[N]{\frac{1}{\prod\limits_{s\in D_{test}} P(s)}} = \sqrt[N]{\frac{1}{\prod\limits_{s\in D_{test}} \frac{1}{N}}} = \sqrt[N]{\frac{1}{\left(\frac{1}{N}\right)^N}} = \sqrt[N]{\left(\frac{1}{N}\right)^{-N}}= \left(\frac{1}{N}\right)^{-1} = N $$
 
 ## 3. Rozważ poniższy korpus i zaproponuj dla niego przypisania słów do grup, takich jak w klasowym modelu n-gramowym, i co najmniej 3 prawidłowe schematy zdań możliwe do utworzenia z tych grup
 
