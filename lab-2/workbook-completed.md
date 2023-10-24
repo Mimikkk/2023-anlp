@@ -290,17 +290,20 @@ tokeny: [ "Ala", "ma", "kota", "Jurek", "ma", "kota"]
 3-gramy: [ "Ala ma kota", "ma kota Jurek", "kota Jurek ma", "Jurek ma kota" ]
 
 słownik: {
-  "Ala"             : [1, 0, 0, 0]
-  "ma"              : [0, 1, 0, 0]
-  "kota"            : [0, 0, 1, 0]
-  "Jurek"           : [0, 0, 0, 1]
+  "Ala"             : [1, 0, 0, 0, 0]
+  "ma"              : [0, 1, 0, 0, 0]
+  "kota"            : [0, 0, 1, 0, 0]
+  "Jurek"           : [0, 0, 0, 1, 0]
+  "Start"           : [0, 0, 0, 0, 1]
 }
-wektory: [
-  "Ala ma kota"     : [1, 1, 1, 0]
-  "ma kota Jurek"   : [0, 1, 1, 1]
-  "kota Jurek ma"   : [0, 1, 1, 1]
-  "Jurek ma kota"   : [1, 1, 0, 1]
-]
+
+Zbiór: 
+ x1               x2            |  y
+[0, 0, 0, 0, 1], [0, 0, 0, 0, 1]| [1, 0, 0, 0, 0]
+[0, 0, 0, 0, 1], [1, 0, 0, 0, 0]| [0, 1, 0, 0, 0]
+[0, 0, 0, 0, 1], [0, 0, 0, 0, 1]| [0, 0, 0, 1, 0]
+[1, 0, 0, 0, 0], [0, 1, 0, 0, 0]| [0, 0, 1, 0, 0]
+[0, 0, 0, 1, 0], [0, 1, 0, 0, 0]| [0, 0, 1, 0, 0]
 ```
 
 ## 13. Zakładając, że słowa wejściowe są kodowane "1 z n" rozpisz wzór na klasyfikator softmax dla podanych prawdopodobieństw w modelach n-gramowych. Aby operować na prostszych wzorach możesz skorzystać z notacji "proporcjonalne", w której softmax możemy zapisać jako $P(\hat{y}=y_i|x)\propto w^{T}_i\times +\,b_i$ (prawdopodobieństwo klasy jest proporcjonalne [choć nie wprost] z wynikiem wyrażenia liniowego). Po zapisaniu wzorów postraj się uprościć je tak bardzo jak potrafisz i zinterpretuj je
@@ -333,12 +336,9 @@ Interpretacja: Klasyfikator softmax w modelach n-gramowych używa liniowych komb
 
 ## 14. W kontekście modeli n-gramowych uczonych przez zliczanie ( z technikami rozmywania estymat ) oraz na podstawie zapisu z poprzedniego ćwiczenia, dokonaj interpretacji działania klasyfikatora softmax w modelu języka i porównaj  jego działanie do modeli uczonych przez zliczanie
 
-W modelach n-gramowych uczonych przez zliczanie, prawdopodobieństwa są obliczane na podstawie częstości występowania danego n-gramu w danych uczących. W przypadku klasyfikatora softmax w modelu języka, prawdopodobieństwa są obliczane na podstawie optymalizacji funkcji kosztu (np. entropia krzyżowa) w procesie uczenia.
+Model softmax-bigramowy zachowuje wagę dla każdej pary (klasa/kolejne słowo, słowo poprzednie). Gdyby model nie miał wyrazów wolnych to nauczyłby się tego samego co zwykły model bi-gramowy - ma tyle samo parametrów. Model zliczający też przechowuje w tabelce po jednej liczbie dla wszystkich par. Dodatkowo jednak dodaje on wagę związaną tylko z klasą/kolejnym słowem - może więc modelować "bezwarunkowe" prawdopodobieństwo że słowo występuje w zbiorze rzadziej lub częściej. Tego typu wagi w modelu zliczającym uzyskalibyśmy przy interpolowaniu modelu bigramowego z unigramowym.
 
-Porównanie
-
-- Modele przez zliczanie: Proste, deterministyczne, oparte na częstości występowania n-gramów. Mogą cierpieć z powodu problemu zerowego prawdopodobieństwa (rozwiązane przez techniki wygładzania).
-- Klasyfikator softmax: Elastyczniejszy, pozwala na uczenie się skomplikowanych zależności między słowami. Wymaga optymalizacji w procesie uczenia.
+W przypadku modelu 3-gramowego warto zauważyć że dochodzi już do redukcji liczby parametrów. Model ma wagę dla "kolejne słowo to kota i Ala na poprzedniej pozycji" oraz wagę dla "kolejne słowo to kota i ma dwie pozycje temu". Ma on więc parametr dla 2 zestawów par klasa/słowo i słowo w warunku - odpowiednio jeden zestaw dla par wi|wi−1 oraz drugi zestaw dla wi|wi−2. Wraz ze zwiększaniem się n-gramu liczba parametrów modelu rośnie liniowo, a nie wykładniczo jak w modelu zliczającym. Niemniej jednak ogranicza się w ten sposób ekspresję modelu. Są rozkłady prawdopodobieństwa które może zamodelować zliczający model 3-gramowy, a których nie potrafi zamodelować softmax 3-gramowy. Modele oparte o softmax w NLP zwykle nazywamy modelami logarytmiczno-liniowymi.
 
 ## 15. Dane są trzy modele 3-gramowe
 
@@ -350,19 +350,10 @@ Przyjmując $|V|=50\,000$  oszacuj liczbę parametrów w każdym z tych modeli. 
 
 Liczba parametrów dla poszczególnych modeli:
 
-1. Standardowy model oparty o zliczanie: Teoretycznie potrzebuje przetrzymać prawdopodobieństwo dla każdego możliwego 3-gramu, czyli \(|V|^3\). W praktyce jednak nie wszystkie kombinacje 3-gramów będą występować, więc rzeczywista liczba parametrów będzie mniejsza.
+1. Standardowy model oparty o zliczanie: $|V|^n=1.25e14$.
 
-2. Klasyfikator softmax i reprezentacja "1 z n": Dla każdego słowa w \(V\) mamy wektor wag o rozmiarze \(|V|\) (dla poprzedniego słowa) i bias, czyli \(2|V|^2\).
+2. Klasyfikator softmax i reprezentacja "1 z n": $n\times|V|^2=5e9$.
 
-3. Model z MLP:
-   - Wejście do pierwszej warstwy ukrytej: \(|V| \times h = 50,000 \times 500 = 25,000,000\)
-   - Bias dla pierwszej warstwy ukrytej: \(h = 500\)
-   - Wejście do warstwy softmax z warstwy ukrytej: \(h \times |V| = 500 \times 50,000 = 25,000,000\)
-   - Bias dla warstwy softmax: \(|V| = 50,000\)
+3. Model z MLP: $n\times h \times |V| = 5e7$
 
-Łącznie dla MLP: \(25,000,500 + 25,050,000 = 50,050,500\)
-
-Podsumowanie:
-
-- Najmniejszy w sensie liczby parametrów: Model standardowy (choć w praktyce różnica może być nieznaczna w porównaniu z klasyfikatorem softmax, w zależności od rzeczywistej liczby unikalnych trigramów)
-- Najbardziej ekspresywny: Model z MLP, ponieważ ma najwięcej parametrów i może uczzyć się bardziej złożonych zależności między słowami
+- Najbardziej ekspresywny: Model przez zliczanie.
