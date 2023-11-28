@@ -44,6 +44,18 @@ Przez co możemy to otagować jako
 
 Policz prawdopodobieńtstwo sekwencji: "Ala [N] lubi [V] misie [N]" wg. bigramowego ukrytego modelu Markowa.
 
+Sekwencje liczmy jako
+$$P(x_1^n,y_1^n)=\prod\limits_{i=1}^nP(x_i|y_i)\prod^{n+1}_{i=1}P(y_i|y_{i-1})$$
+Co się sprowadza do policzenia
+$$ P(N|[Start])\cdot(V|N)\cdot(P|V)\cdot P(N|[Stop])\cdot P(Ala|N)\cdot P(lubi|V)\cdot P(misie|N)$$
+
+Co robimy poprzez wyznaczenie prawdopodobieństw na korpusie jako zliczone pary (Słowo | Tag) oraz (Tag | Tag) i podzielenie ich przez sumę wszystkich wystąpień danego tagu.
+
+$$
+P(N|[Start])\cdot P(V|N)\cdot P(N|V)\cdot P(N|[Stop])\cdot P(Ala|N)\cdot P(lubi|V)\cdot P(misie|N)\\
+= 1\cdot\frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{1}\cdot\frac{1}{4}\cdot\frac{1}{2}\cdot\frac{1}{4}=\frac{1}{256}
+$$
+
 ## 4. Rozważ korpus uczący
 
 - I [O] book [V] a [O] flight [N].
@@ -96,4 +108,3 @@ pozostałe wartości rozkładu nie są dla nas interesujące (mogą przyjąć do
   - O - brak encji
   - E - koniec encji
   - S - pojedyncza encja
-- 
