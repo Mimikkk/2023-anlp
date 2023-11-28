@@ -21,6 +21,22 @@ Korpus:
 - Na wynos, pizze z pieczarkami i zielonymi oliwkami.
 - Jedną małą pizzę z tuńczykiem, kukurydzą, karmelizowaną cebulą.
 
+nasze BIO składa się z
+
+- Smak
+- Ciasto
+- IlośćadP
+- Rozmiar
+- Dostawa
+- Other
+
+Przez co możemy to otagować jako
+
+- Chciałbym(O) margheritę(B-S) na(O) grubym(B-C) cieście(O).
+- Dwa(B-I) razy(O) pepperoni(S) na(O) cienkim(B-C).
+- Na(B-D) wynos(I-D), pizze(O) z(O) pieczarkami(B-S) i(O) zielonymi(B-S) oliwkami(I-S).
+- Jedną(B-I) małą(B-R) pizzę(O) z(O) tuńczykiem(B-S), kukurydzą(B-S), karmelizowaną(B-S) cebulą(I-S).
+
 ## 3. Mając poniższy korpus uczący
 
 - Ala [N] ma [V] kota [N]
@@ -65,3 +81,19 @@ pozostałe wartości rozkładu nie są dla nas interesujące (mogą przyjąć do
 ### (d) Utworzono zestaw cech $\phi_i(x,y)=1_{x=x'\wedge\, y=y'}$, po jednej cesze dla każdej $x'\in X$ oraz $y'\in Y$. Zakładając cechę bez pokrycia $\phi_j(x,y)$ (tj. cecha ta nie akywuje sięani razu w zbiorze uczącym). Jakie są wartości $w_j$?
 
 ## 12. Czy do klasyfikacji wieloklasowej możemy zastosować zamiast warstwy softmax, warstwę złożoną z neuronów logistycznych? W jaki sposób taka sieć byłaby trenowana? Jakie są zalety stosowania warstwy sofrtmax zamiast zwykłych neuronów logistycznych?
+
+## Słowniczek
+
+- BIO - Algorytm tagowania do rozpoznawania encji nazwanych ( Named Entity Recognition, NER )
+  - BIO składa się z ( B - Begin, I - Inside, O - Outside )
+  - B - początek encji
+  - I - środek encji
+  - O - brak encji
+- BIOES - Rozszerzenie algorytmuy BIO o rozpoznawanie pojedynczych encji
+  - BIOES składa się z ( B - Begin, I - Inside, O - Outside, E - End, S - Single )
+  - B - początek encji
+  - I - środek encji
+  - O - brak encji
+  - E - koniec encji
+  - S - pojedyncza encja
+- 
