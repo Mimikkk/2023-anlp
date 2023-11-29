@@ -117,7 +117,22 @@ I(O) book(V) a(O) book(N)
 
 ## 5. Podaj korpus uczący, dla którego klasyfikator HMM popełni choć jeden błąd ( na korpusie uczącym )
 
+- [O] [O] [A] [O] [O]
+
+Ponieważ P(O|O) ma większe prawdopodobieństwo niż P([stop]|O), to algorytm może wypluwać cały czas [O].
+
 ## 6. Zapisz wzór na algorytm Viterbiego dla modelu MEMM z reprezentacją cech opartą na poprzednim tagu i aktualnym słowie
+
+$$\max^Y_{y} \prod^N_{i=1} P(y_i|y_{i-1}, x)$$
+$$\max^Y_y P(y_N|y_{N-1}, x) \cdot P(y_{N-1}|y_{N-2}, x)\cdot ... \cdot \max_{y_1}P(y_2|y_1,x)\cdot P(y_1|Start,x)=$$
+
+Możemy zabuforować końcówki słów i tagów, żeby nie liczyć ich za każdym razem jako $B_1(y_1)$ co pozwala na skrócenie wzoru do
+
+$$\max_{y_2} P(y_3|y_2,x) \max_{y_1} P(y_2|y_1,x) B_1(y_1)$$
+
+Co możemy dalej skrócić przez zabuforowanie $B_2(y_2)$ co dalej transformuje wyrażenie do
+
+$$\max_{y_n} B_n(y_n)$$
 
 ## 7. Zapisz wzór na algorytm Viterbiego dla modelu trzygramowego HMM
 
@@ -134,13 +149,23 @@ pozostałe wartości rozkładu nie są dla nas interesujące (mogą przyjąć do
 
 ## 11. Rozważmy model softmax $\sigma(x)_y=\frac{e^{W^{T}\phi(x,y)}}{\sum\limits_{x'}e^{W^{T}\phi(x,y')}}$, który jest nauczony poprzez maksymalizację logarytmicznej funkcji wiarygodności wraz z termem regularyzacyjnym L2. Załóż, że w czasie optymalizacji osiągnięto optimum funkcji celu. Odpowiedz na poniższe pytania i uzasadnij
 
+Mem, wszystko się znosi.
+
 ### (a) Zakładając cechę $\phi_1(x,y)=0$, dla każdego $x\in X$ oraz $y\in Y$, ile wynosi wartość $w_1$?
+
+$w_1 = 0$, ponieważ nie ma żadnego wpływu na wynik
 
 ### (b) Zakładając cechę $\phi_2(x,y)=1$, dla każdego $x\in X$ oraz $y\in Y$, ile wynosi wartość $w_2$?
 
+$w_2 = 0$, ponieważ nie ma żadnego wpływu na wynik
+
 ### (c) Zakładając cechę $\phi_3(x,y)=idx(x)$, dla każdego $x\in X$ oraz $y\in Y$, gdzie funkcja idx() przypisuje kolejnym wektorom kolejne liczby naturalne - ile wynosi wartość $w_3$?
 
-### (d) Utworzono zestaw cech $\phi_i(x,y)=1_{x=x'\wedge\, y=y'}$, po jednej cesze dla każdej $x'\in X$ oraz $y'\in Y$. Zakładając cechę bez pokrycia $\phi_j(x,y)$ (tj. cecha ta nie akywuje sięani razu w zbiorze uczącym). Jakie są wartości $w_j$?
+$w_3 = 0$, ponieważ nie ma żadnego wpływu na wynik
+
+### (d) Utworzono zestaw cech $\phi_i(x,y)=1_{x=x'\wedge\, y=y'}$, po jednej cesze dla każdej $x'\in X$ oraz $y'\in Y$. Zakładając cechę bez pokrycia $\phi_j(x,y)$ (tj. cecha ta nie akywuje się ani razu w zbiorze uczącym). Jakie są wartości $w_j$?
+
+$w_j = 0$, ponieważ nie ma żadnego wpływu na wynik i nie jest aktywowana
 
 ## 12. Czy do klasyfikacji wieloklasowej możemy zastosować zamiast warstwy softmax, warstwę złożoną z neuronów logistycznych? W jaki sposób taka sieć byłaby trenowana? Jakie są zalety stosowania warstwy sofrtmax zamiast zwykłych neuronów logistycznych?
 
