@@ -59,11 +59,61 @@ $$
 ## 4. Rozważ korpus uczący
 
 - I [O] book [V] a [O] flight [N].
-- Dad [O] reads [V] a [O] book [N].
+- Dad [N] reads [V] a [O] book [N].
 - Big [O] company [N] books [V] flights [N].
 - I [O] like [V] A [N] company [N].
 
 Zakładajac, że w korpusie uczącym zamieniono wszystkie duże litery na małe oraz usunięto literkę "s" jeśli znajdowała się na końcu wyrazu ( pozbycie się liczby mnogiej i odmiany czasowników ), wytrenuj bigramowy ukryty model Markowa, a następnie dokonaj predykcji algorytmem Viterbiego dla zdania "I book a book".
+
+Korpus po zmianach
+
+- i [O] book [V] a [O] flight [N].
+- dad [N] read [V] a [O] book [N].
+- big [O] company [N] book [V] flight [N].
+- i [O] like [V] a [N] company [N].
+
+Wzór: $Emisja\cdot \max\{Tranzycja,\,Bufor\}$, $P(Słowo|PoS)\cdot\max\{P(PoS_i|PoS_{i-1})\cdot bufor\}$
+
+- B1 - i
+N - $P(i|N) \cdot P(N|[start]) = ...\cdot 0 = 0$
+V - $P(i|V) \cdot P(V|[start]) = 0\cdot ... =0 $
+O - $P(i|O) \cdot P(O|[start]) = 2/5 \cdot 3/4 = 3/10$
+[stop] - $0$
+
+> Buffor = B1(PoS) = {N,V,O,[stop]} = {0,0,3/10,0}
+
+- B2 - book
+N - $P(book|N)\cdot \max\{B1(N|PoS)\cdot P(N|PoS)\}=P(book|N)\cdot \max\{B1(N|N)\cdot  P(N|N),B1(N|V)\cdot P(N|V),B1(N|O)\cdot P(N|O),B1(N|[stop])\cdot P(N|[stop])\}=1/7\cdot \max\{0,0,3/10\cdot P(N|O),0\} = 1/7\cdot 3/10\cdot 3/5 =9/350$
+V - $P(book|V)\cdot \max\{B1(V|PoS)\cdot P(V|PoS)\}= 2/4\cdot \max\{B1(V|O)\cdot P(V|O)\}=1/2\cdot 3/10\cdot 2/5 = 3/50$
+O - $P(book|O)\cdot \max\{B1(O|PoS)\cdot P(O|PoS)\}= 0\cdot...=0$
+[stop] - $0$
+
+> Bufor - B2(PoS) = {N,V,O,[stop]} = {9/350,3/50,0,0}
+
+- B3 - a
+
+N - $P(a|N)\cdot \max\{B2(PoS)\cdot P(N|PoS)\}=1/7\cdot \max\{9/350\cdot P(N|N), 3/50\cdot P(N|V)\}=1/7\cdot \max\{9/350 \cdot 1/7, 3/50\cdot 2/4\}=1/7\cdot 2/4 \cdot 3/50 = 3/700$
+V - $0\cdot...=0$
+O - $2/5\cdot ...= 3/100\cdot 2/5 = 3/250$
+[stop] - $0$
+
+- B4 - book
+
+N - $...=9/8750$
+V - $...=3/1250$
+O - $...=0$
+[stop] - $0$
+
+- B5 - [stop]
+
+N - $...=0$
+V - $...=0$
+O - $...=0$
+[stop] - $...=18/30625$
+
+Predykcja: Przechodzimy od tyłu co głosowaliśmy jako najprawdobodobniejsze
+
+I(O) book(V) a(O) book(N)
 
 ## 5. Podaj korpus uczący, dla którego klasyfikator HMM popełni choć jeden błąd ( na korpusie uczącym )
 
