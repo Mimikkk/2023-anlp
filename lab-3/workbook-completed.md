@@ -25,7 +25,7 @@ nasze BIO składa się z
 
 - Smak
 - Ciasto
-- IlośćadP
+- Ilość
 - Rozmiar
 - Dostawa
 - Other
